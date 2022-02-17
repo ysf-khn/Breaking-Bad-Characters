@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import CharactersList from './components/characters/CharactersList';
+import Header from './components/Header';
+import Search from './components/Search';
+
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [characters, setCharacters] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const fetchCharacters = async () => {
+      const response = await fetch(
+        `https://www.breakingbadapi.com/api/characters?name=${query}`
+      );
+      const data = await response.json();
+      setCharacters(data);
+      console.log(data);
+      setIsLoading(false);
+    };
+    fetchCharacters();
+  }, [query]);
+
+  const queryHandler = (queryValue) => {
+    setQuery(queryValue);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Search onQuery={queryHandler} />
+      <CharactersList characters={characters} isLoading={isLoading} />
     </div>
   );
 }

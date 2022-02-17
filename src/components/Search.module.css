@@ -1,0 +1,13 @@
+section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+}
+
+input {
+  font: inherit;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
